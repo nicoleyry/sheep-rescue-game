@@ -1,0 +1,37 @@
+# ------------------------------------------------------------------------------
+# Unity generated artifacts
+# ------------------------------------------------------------------------------
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/Assets/AssetStoreTools/
+/Assets/StreamingAssets/
+/Logs/
+/MemoryCaptures/
+/ServiceData/
+/UVBake/
+
+# Gradle related artifacts
+.gradle/
+*.apk
+*.aab
+*.unitypackage
+
+# Visual Studio / Rider / IDE
+.vs/
+.idea/
+*.csproj
+*.sln
+*.user
+*.userprefs
+
+# macOS
+.DS_Store
+
+# ------------------------------------------------------------------------------
+# Unity Package Manager (UPM)
+# ------------------------------------------------------------------------------
+/Packages/manifest.json.meta
+/Packages/packages-lock.json.meta
