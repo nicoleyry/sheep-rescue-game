@@ -102,6 +102,8 @@ MonoBehaviour:
   heartOffset: 4
   hearPrefab: {fileID: 7552414483733952071, guid: f6e539a72d7f7482593251298f351f36,
     type: 3}
+  leftBoundary: -22
+  rightBoundary: 22
 --- !u!1001 &5443717497136186086
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Sheep : MonoBehaviour
@@ -14,15 +15,21 @@ public class Sheep : MonoBehaviour
 
 	private bool hasDropped = false;
 
+	[Header("Boundaries")]
+    public float leftBoundary = -15f;
+    public float rightBoundary = 15f;
+
 	void Start()
     {
 		myCollider = GetComponent<Collider>();
 		myRigidbody = GetComponent<Rigidbody>();
+
+		StartCoroutine(ChangeDirectionRoutine());
     }
 
 	void Update()
 	{
-		transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+		boundaryCheck();
 	}
 
 	public void HitByHay()
@@ -71,10 +78,62 @@ public class Sheep : MonoBehaviour
 
 		SoundManager.Instance.PlaySheepDroppedClip();
 	}
-	
+
 	public void SetSpawner(SheepSpawner spawner)
 	{
 		sheepSpawner = spawner;
+	}
+
+	private IEnumerator ChangeDirectionRoutine()
+	{
+		while (true)
+		{
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
+
+            if (hitByHay || hasDropped)
+            {
+                yield break;
+            }
+            
+            // Just apply a random wiggle.
+            float turnAngle = Random.Range(-45f, 45f);
+            transform.Rotate(0, turnAngle, 0);
+		}
+	}
+	
+	void boundaryCheck()
+	{
+        if (hitByHay || hasDropped)
+        {
+            return;
+        }
+
+        Vector3 currentPos = transform.position;
+
+		// Outside the left boundary.
+		if (currentPos.x < leftBoundary)
+		{
+			// Nudge the sheep back to the boundary line
+			currentPos.x = leftBoundary;
+
+			// Force the sheep to turn right (toward the center)
+			transform.rotation = Quaternion.Euler(0, Random.Range(45f, 135f), 0);
+		}
+		// Outside the right boundary.
+		else if (currentPos.x > rightBoundary)
+		{
+			// Nudge the sheep back to the boundary line
+			currentPos.x = rightBoundary;
+
+			// Force the sheep to turn left (toward the center)
+			transform.rotation = Quaternion.Euler(0, Random.Range(-135f, -45f), 0);
+		}
+
+        // Apply the (potentially corrected) position
+        transform.position = currentPos;
+        
+        // Move the sheep forward in its current (or newly forced) direction
+        transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
 	}
 
 }
